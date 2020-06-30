@@ -8,8 +8,8 @@ public class BubbleSort {
     public static void main(String[] args) {
         int[] arr = {3, 9, -1, 10, 20};
 
-        int[] arrs = new int[80000];
-        for (int i=0;i<800000;i++){
+        int[] arrs = new int[80000];  //10秒
+        for (int i=0;i<80000;i++){
             arrs[i] = (int)(Math.random() * 8000000);
         }
 
