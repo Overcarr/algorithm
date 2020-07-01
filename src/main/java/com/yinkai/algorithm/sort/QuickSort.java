@@ -4,10 +4,14 @@ import javax.sound.midi.Soundbank;
 import java.sql.SQLOutput;
 import java.util.Arrays;
 
+
+/**
+ * 快速排序
+ */
 public class QuickSort {
     public static void main(String[] args) {
         int[] arr = {-9, 78, 0, 23, -567, 70};
-        quickSort(arr, 0, 5);
+        quickSort(arr, 0, arr.length-1);
         System.out.println(Arrays.toString(arr));
 
     }
