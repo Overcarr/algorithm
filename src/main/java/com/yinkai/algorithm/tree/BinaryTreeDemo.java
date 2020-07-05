@@ -281,6 +281,10 @@ class HeroNode{
         return heroNode;
     }
 
+    /**
+     * 删除
+     * @param id
+     */
     public void del(int id){
         if (this.left!=null && this.left.id == id){
             this.left =null;
