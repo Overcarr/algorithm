@@ -1,5 +1,6 @@
 package com.yinkai.algorithm.tree.huffmancode;
 
+import java.io.*;
 import java.util.*;
 
 /**
@@ -10,16 +11,94 @@ public class HuffmanCode {
         String str = "i like like like java do you like a java";
         // 压缩成霍夫曼树
         byte[] bytes = str.getBytes();
-        List<Node> list = byteToList(bytes);
-        Node root = HuffmanTree(list);
-        Map<Byte, String> huffmanCodes = getCode(root);
-        //解压霍夫曼树变成原来的字符串
-        byte[] zip = zip(bytes, huffmanCodes);
+        byte[] zip = huffmanZip(bytes);
         System.out.println(Arrays.toString(zip));
         byte[] decode = decode(huffmanCodes, zip);
         System.out.println(new String(decode));
+        String srcFile = "C:\\Users\\Lenovo\\Desktop\\尚硅谷Java数据结构与算法\\资料\\src.zip";
+        String desFile = "C:\\Users\\Lenovo\\Desktop\\尚硅谷Java数据结构与算法\\资料\\dd.bmp";
+
+        /*zipFile(srcFile,desFile);*/
+
+        decodeFile(srcFile,desFile);
 
 
+    }
+
+    /**
+     * 解压文件
+     * @param srcFile
+     * @param desFile
+     */
+    private static void decodeFile(String srcFile,String desFile){
+        InputStream is = null;
+        ObjectInputStream ois = null;
+        OutputStream os = null;
+        try {
+            is = new FileInputStream(srcFile);
+            ois = new ObjectInputStream(is);
+            byte[] bytes =(byte[])ois.readObject();
+            Map<Byte,String> huffmanCodes = (Map<Byte,String>)ois.readObject();
+            byte[] huffmanZip = decode(huffmanCodes,bytes);
+            os = new FileOutputStream(desFile);
+            os.write(huffmanZip);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                os.close();
+                ois.close();
+                is.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * 压缩文件
+     * @param srcFile
+     * @param desFile
+     * @return
+     */
+    private static void zipFile(String srcFile,String desFile){
+        OutputStream os = null;
+        ObjectOutputStream oos = null;
+        FileInputStream is = null;
+
+        try {
+            is = new FileInputStream(srcFile);
+            byte[] b = new byte[is.available()];
+            is.read(b);
+            byte[] bytes = huffmanZip(b);
+            os = new FileOutputStream(desFile);
+            oos = new ObjectOutputStream(os);
+            oos.writeObject(bytes);
+            oos.writeObject(huffmanCodes);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        } finally {
+            try {
+                is.close();
+                oos.close();
+                os.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * 压缩
+     * @param bytes
+     * @return
+     */
+    private static byte[] huffmanZip(byte[] bytes){
+        List<Node> list = byteToList(bytes);
+        Node root = HuffmanTree(list);
+        huffmanCodes = getCode(root);
+        byte[] zip = zip(bytes, huffmanCodes);
+        return zip;
     }
 
     /**
@@ -251,3 +330,5 @@ class Node implements Comparable<Node>{
         }
     }
 }
+
+
