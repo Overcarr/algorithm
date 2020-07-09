@@ -1,23 +1,23 @@
-package com.yinkai.algorithm.binarysorttree;
+package com.yinkai.algorithm.avl;
 
-/**
- * 二叉排序树
- */
-public class BinarySortTreeDemo {
+public class AVLTreeDemo {
     public static void main(String[] args) {
-        int[] arr = {7,3};
-        BinarySortTree binarySortTree = new BinarySortTree();
+        int[] arr ={10,12,8,9,7,6};
+        AVLTree avlTree = new AVLTree();
         for (int i=0;i<arr.length;i++){
-            binarySortTree.add(new Node(arr[i]));
+            avlTree.add(new Node(arr[i]));
         }
-        binarySortTree.infix();
+        avlTree.infix();
         System.out.println();
-        binarySortTree.del(7);
-        binarySortTree.infix();
+        if (avlTree.diffHeight() >=2) {
+            avlTree.rightRotate();
+        }
+        avlTree.infix();
+        System.out.println(avlTree.diffHeight());
     }
 }
 
-class BinarySortTree{
+class AVLTree{
     private Node root;
 
     public Node getRoot() {
@@ -36,6 +36,36 @@ class BinarySortTree{
         del(temp.vaule);
         return temp.vaule;
 
+    }
+
+    /**
+     * 右子树高 左旋转
+     */
+    public void leftRotate(){
+        root.leftRotate();
+    }
+
+    /**
+     * 左子树高 右旋转
+     */
+    public void rightRotate(){
+        root.rightRotate();
+    }
+
+    public int hegiht(){
+        if (root==null){
+            return 0;
+        }else {
+            return root.height();
+        }
+    }
+
+    public int diffHeight(){
+        if (root==null){
+            return 0;
+        }else {
+            return Math.abs(root.leftHeight()-root.rightHeight());
+        }
     }
 
     /**
@@ -150,6 +180,59 @@ class Node{
     }
 
     /**
+     * 左自旋
+     */
+    public void leftRotate(){
+        Node newNode = new Node(vaule);
+        newNode.left = left;
+        newNode.right = right.left;
+        vaule = right.vaule;
+        right = right.right;
+        left = newNode;
+    }
+
+    public void rightRotate(){
+        Node newNode = new Node(vaule);
+        newNode.right = right;
+        newNode.left = left.right;
+        vaule = left.vaule;
+        left = left.left;
+        right = newNode;
+    }
+
+    /**
+     * 左子树高度
+     * @return
+     */
+    public int leftHeight(){
+        if (left!=null){
+            return left.height();
+        }else{
+            return 0;
+        }
+    }
+
+    /**
+     * 右子树高度
+     * @return
+     */
+    public int rightHeight(){
+        if (right!=null){
+            return right.height();
+        }else{
+            return 0;
+        }
+    }
+
+    /**
+     * 树的高度
+     * @return
+     */
+    public int height(){
+        return Math.max(left==null?0:left.height(),right==null?0:right.height())+1;
+    }
+
+    /**
      * 添加
      * @param node
      */
@@ -168,6 +251,24 @@ class Node{
                 this.right.add(node);
             }else {
                 this.right = node;
+            }
+        }
+
+        if (rightHeight() - leftHeight() >1){
+            if (right!=null&&right.leftHeight() -right.rightHeight() >1){
+                rightHeight();
+                leftHeight();
+            }else {
+                leftHeight();
+            }
+            return;
+        }
+        if (leftHeight() - rightHeight() >1){
+            if (left!=null&&left.rightHeight() -left.leftHeight() >1){
+                leftHeight();
+                rightHeight();
+            }else {
+                rightHeight();
             }
         }
     }
@@ -228,5 +329,3 @@ class Node{
         }
     }
 }
-
-
