@@ -34,7 +34,7 @@ public class BinaryTreeDemo {
         //后序查找
         binaryTree.postOne(5);
         System.out.println();
-        binaryTree.del(3);
+        binaryTree.del(5);
         binaryTree.perOrder();
 
     }

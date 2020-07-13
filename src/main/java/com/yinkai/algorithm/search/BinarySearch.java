@@ -12,7 +12,7 @@ public class BinarySearch {
         /*int i = binarySearch(arr, 0, arr.length - 1, 2);
         System.out.println(i);*/
 
-        List<Integer> list = binarySearch2(arr, 0, arr.length - 1, 555);
+        List<Integer> list = binarySearch2(arr, 0, arr.length - 1, 1000);
         System.out.println(list);
     }
 
