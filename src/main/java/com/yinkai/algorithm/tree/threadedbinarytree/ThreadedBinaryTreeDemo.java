@@ -15,12 +15,12 @@ public class ThreadedBinaryTreeDemo {
         node2.setRight(node5);
         node3.setLeft(node6);
         ThreadedBinaryTree threadedBinaryTree = new ThreadedBinaryTree(root);
-        /*threadedBinaryTree.threadedNodes(root);*/
+
         /*HeroNode left = node5.getLeft();
         System.out.println(left);
         System.out.println(node5.getRight());*/
-        threadedBinaryTree.postThreadedNodes(root);
-        threadedBinaryTree.post(root);
+        threadedBinaryTree.preThreadedNodes(root);
+        threadedBinaryTree.pre(root);
     }
 }
 
